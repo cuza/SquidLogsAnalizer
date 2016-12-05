@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquidLogsAnalizer", "SquidLogsAnalizer\SquidLogsAnalizer.csproj", "{6AADA287-2768-4725-9968-D6FE5A01893D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMCC.GRedes", "UMCC.GRedes\UMCC.GRedes.csproj", "{C46DF378-973E-4CC6-A366-9E813FDC5DED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{6AADA287-2768-4725-9968-D6FE5A01893D}.Debug|x86.Build.0 = Debug|x86
 		{6AADA287-2768-4725-9968-D6FE5A01893D}.Release|x86.ActiveCfg = Release|x86
 		{6AADA287-2768-4725-9968-D6FE5A01893D}.Release|x86.Build.0 = Release|x86
+		{C46DF378-973E-4CC6-A366-9E813FDC5DED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C46DF378-973E-4CC6-A366-9E813FDC5DED}.Debug|x86.Build.0 = Debug|Any CPU
+		{C46DF378-973E-4CC6-A366-9E813FDC5DED}.Release|x86.ActiveCfg = Release|Any CPU
+		{C46DF378-973E-4CC6-A366-9E813FDC5DED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
