@@ -11,11 +11,10 @@ namespace SquidLogsAnalizer
         private string _statusCode;
         private string _destinationHost;
         private string _squidAction;
-        private string _destinationPort;
         private string _mimeType;
 
         public Log(string username, string hostIp, string httpMethod, string statusCode, string destinationHost,
-            string squidAction, string destinationPort, string mimeType)
+            string squidAction, string mimeType)
         {
             _username = username;
             _hostIp = hostIp;
@@ -23,7 +22,6 @@ namespace SquidLogsAnalizer
             _statusCode = statusCode;
             _destinationHost = destinationHost;
             _squidAction = squidAction;
-            _destinationPort = destinationPort;
             _mimeType = mimeType;
         }
 
@@ -63,12 +61,6 @@ namespace SquidLogsAnalizer
             set { _squidAction = value; }
         }
 
-        public string DestinationPort
-        {
-            get { return _destinationPort; }
-            set { _destinationPort = value; }
-        }
-
         public string MimeType
         {
             get { return _mimeType; }
@@ -78,9 +70,9 @@ namespace SquidLogsAnalizer
         public static Log GetLogFromLine(String line)
         {
             line.Trim();
-            string[] logline = line.Split(' ');
+            string[] tempArray = line.Split(' ');
             List<string> logElements = new List<string>();
-            foreach (var element in logline)
+            foreach (var element in tempArray)
             {
                 if (element != "")
                 {
@@ -88,14 +80,13 @@ namespace SquidLogsAnalizer
                 }
             }
             Log log = new Log(
-                logElements[7],
-                logElements[2],
-                logElements[5],
-                logElements[3],
-                logElements[6],
-                logElements[8],
-                logElements[6],
-                logElements[9]);
+                logElements[7],         //  username
+                logElements[2],         //  host Ip
+                logElements[5],         //  Http Method
+                logElements[3],         //  Http status Code
+                logElements[6],         //  destinnation Host
+                logElements[8],         //  squid Action
+                logElements[9]);        //  mimeType
 
             return log;
         }

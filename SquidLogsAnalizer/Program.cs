@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using UMCC.GRedes;
 
 namespace SquidLogsAnalizer
 {
@@ -8,7 +8,7 @@ namespace SquidLogsAnalizer
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("UMCC Squid Log Analaizer");
 
             TextReader tr = new StreamReader("access.log");
             string line = tr.ReadLine();
@@ -18,7 +18,6 @@ namespace SquidLogsAnalizer
                 Console.WriteLine(log.Username + " " + log.HostIp + " " + log.HttpMethod + " " +
                                   log.DestinationHost + " " + log.SquidAction);
             }
-
 
             while (line != null)
             {
