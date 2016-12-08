@@ -12,18 +12,8 @@ namespace SquidLogsAnalizer
         private string _destinationHost;
         private string _squidAction;
         private string _mimeType;
-
-        public Log(string username, string hostIp, string httpMethod, string statusCode, string destinationHost,
-            string squidAction, string mimeType)
-        {
-            _username = username;
-            _hostIp = hostIp;
-            _httpMethod = httpMethod;
-            _statusCode = statusCode;
-            _destinationHost = destinationHost;
-            _squidAction = squidAction;
-            _mimeType = mimeType;
-        }
+        private DateTime _dateTime;
+        private long _bytes;
 
         public string Username
         {
@@ -67,28 +57,55 @@ namespace SquidLogsAnalizer
             set { _mimeType = value; }
         }
 
+        public DateTime DateTime
+        {
+            get { return _dateTime; }
+            set { _dateTime = value; }
+        }
+
+        public long Bytes
+        {
+            get { return _bytes; }
+            set { _bytes = value; }
+        }
+
+        public Log(string username, string hostIp, string httpMethod, string statusCode, string destinationHost,
+            string squidAction, string mimeType, DateTime dateTime, long bytes)
+        {
+            _username = username;
+            _hostIp = hostIp;
+            _httpMethod = httpMethod;
+            _statusCode = statusCode;
+            _destinationHost = destinationHost;
+            _squidAction = squidAction;
+            _mimeType = mimeType;
+            _dateTime = dateTime;
+            _bytes = bytes;
+        }
+
         public static Log GetLogFromLine(String line)
         {
             line.Trim();
-            string[] tempArray = line.Split(' ');
-            List<string> logElements = new List<string>();
-            foreach (var element in tempArray)
-            {
-                if (element != "")
-                {
-                    logElements.Add(element);
-                }
-            }
+            List<string> logElements = new List<string>(line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
             Log log = new Log(
-                logElements[7],         //  username
-                logElements[2],         //  host Ip
-                logElements[5],         //  Http Method
-                logElements[3],         //  Http status Code
-                logElements[6],         //  destinnation Host
-                logElements[8],         //  squid Action
-                logElements[9]);        //  mimeType
-
+                logElements[7], //  username
+                logElements[2], //  host Ip
+                logElements[5], //  Http Method
+                logElements[3], //  Http status Code
+                logElements[6], //  destinnation Host
+                logElements[8], //  squid Action
+                logElements[9], //  mimeType
+                UnixTimeStampToDateTime(long.Parse(logElements[0].Split('.')[0])), //  datetime
+                long.Parse(logElements[4])); //  bytes recieved
             return log;
+        }
+
+        private static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
         }
     }
 }

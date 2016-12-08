@@ -29,6 +29,7 @@ namespace SquidLogsAnalizer
                     {
                         Console.WriteLine(log.Username + " " + log.HostIp + " " + log.HttpMethod + " " +
                                           log.DestinationHost + " " + log.SquidAction);
+
                     }
                 }
             }
