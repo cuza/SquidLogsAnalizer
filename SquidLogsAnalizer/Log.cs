@@ -5,15 +5,15 @@ namespace SquidLogsAnalizer
 {
     public class Log
     {
-        private string _username;
-        private string _hostIp;
-        private string _httpMethod;
-        private string _statusCode;
-        private string _destinationHost;
-        private string _squidAction;
-        private string _mimeType;
-        private DateTime _dateTime;
-        private long _bytes;
+		string _username;
+		string _hostIp;
+        string _httpMethod;
+        string _statusCode;
+        string _destinationHost;
+        string _squidAction;
+        string _mimeType;
+        DateTime _dateTime;
+        long _bytes;
 
         public string Username
         {
@@ -102,8 +102,8 @@ namespace SquidLogsAnalizer
 
         private static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
-            // Unix timestamp is seconds past epoch
-            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+			// Unix timestamp is seconds past epoch
+			DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
