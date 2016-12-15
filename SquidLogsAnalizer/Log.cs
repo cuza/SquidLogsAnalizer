@@ -88,15 +88,15 @@ namespace SquidLogsAnalizer
             line.Trim();
             List<string> logElements = new List<string>(line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
             Log log = new Log(
-                logElements[7], //  username
-                logElements[2], //  host Ip
-                logElements[5], //  Http Method
-                logElements[3], //  Http status Code
-                logElements[6], //  destinnation Host
-                logElements[8], //  squid Action
-                logElements[9], //  mimeType
-                UnixTimeStampToDateTime(long.Parse(logElements[0].Split('.')[0])), //  datetime
-                long.Parse(logElements[4])); //  bytes recieved
+                logElements[7],                                                     //  username
+                logElements[2],                                                     //  host Ip
+                logElements[5],                                                     //  Http Method
+                logElements[3],                                                     //  Http status Code
+                logElements[6],                                                     //  destinnation Host
+                logElements[8],                                                     //  squid Action
+                logElements[9],                                                     //  mimeType
+                UnixTimeStampToDateTime(long.Parse(logElements[0].Split('.')[0])),  //  datetime
+                long.Parse(logElements[4]));                                        //  bytes recieved
             return log;
         }
 
