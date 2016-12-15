@@ -42,5 +42,63 @@
       <Name>UMCC.GRedes</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="blacklists\ads\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\ads\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\dialers\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\dialers\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\games\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\games\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\porn\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\porn\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\proxy\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\proxy\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\socialnetworking\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\socialnetworking\domains-backup" />
+    <None Include="blacklists\socialnetworking\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\virusinfected\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\virusinfected\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\webmail\domains">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="blacklists\webmail\urls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="blacklists\ads" />
+    <Folder Include="blacklists\games" />
+    <Folder Include="blacklists\porn" />
+    <Folder Include="blacklists\proxy" />
+    <Folder Include="blacklists\webmail" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
