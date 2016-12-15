@@ -8,22 +8,22 @@ namespace SquidLogsAnalizer
     {
         public static void Main(string[] args)
         {
-            string[] adsDomains = File.ReadAllLines("blacklist/ads/domains");
-            string[] adsUrls = File.ReadAllLines("blacklist/ads/urls");
-            string[] dialersDomains = File.ReadAllLines("blacklist/dialers/domains");
-            string[] dialersUrls = File.ReadAllLines("blacklist/dialers/urls");
-            string[] gamesDomains = File.ReadAllLines("blacklist/games/domains");
-            string[] gamesUrls = File.ReadAllLines("blacklist/games/urls");
-            string[] pornDomains = File.ReadAllLines("blacklist/porn/domains");
-            string[] pornUrls = File.ReadAllLines("blacklist/porn/urls");
-            string[] proxyDomains = File.ReadAllLines("blacklist/proxy/domains");
-            string[] proxyUrls = File.ReadAllLines("blacklist/proxy/urls");
-            string[] socialnetworkingDomains = File.ReadAllLines("blacklist/socialnetworking/domains");
-            string[] socialnetworkingUrls = File.ReadAllLines("blacklist/socialnetworking/urls");
-            string[] virusinfectedDomains = File.ReadAllLines("blacklist/virusinfected/domains");
-            string[] virusinfectedUrls = File.ReadAllLines("blacklist/virusinfected/urls");
-            string[] webmailDomains = File.ReadAllLines("blacklist/webmail/domains");
-            string[] webmailUrls = File.ReadAllLines("blacklist/webmail/urls");
+            string[] adsDomains = File.ReadAllLines("blacklists/ads/domains");
+            string[] adsUrls = File.ReadAllLines("blacklists/ads/urls");
+            string[] dialersDomains = File.ReadAllLines("blacklists/dialers/domains");
+            string[] dialersUrls = File.ReadAllLines("blacklists/dialers/urls");
+            string[] gamesDomains = File.ReadAllLines("blacklists/games/domains");
+            string[] gamesUrls = File.ReadAllLines("blacklists/games/urls");
+            string[] pornDomains = File.ReadAllLines("blacklists/porn/domains");
+            string[] pornUrls = File.ReadAllLines("blacklists/porn/urls");
+            string[] proxyDomains = File.ReadAllLines("blacklists/proxy/domains");
+            string[] proxyUrls = File.ReadAllLines("blacklists/proxy/urls");
+            string[] socialnetworkingDomains = File.ReadAllLines("blacklists/socialnetworking/domains");
+            string[] socialnetworkingUrls = File.ReadAllLines("blacklists/socialnetworking/urls");
+            string[] virusinfectedDomains = File.ReadAllLines("blacklists/virusinfected/domains");
+            string[] virusinfectedUrls = File.ReadAllLines("blacklists/virusinfected/urls");
+            string[] webmailDomains = File.ReadAllLines("blacklists/webmail/domains");
+            string[] webmailUrls = File.ReadAllLines("blacklists/webmail/urls");
 
             Console.WriteLine("UMCC Squid Log Analaizer");
 
