@@ -8,31 +8,36 @@ namespace SquidLogsAnalizer
     {
         public static void Main(string[] args)
         {
-            string[] adsDomains = File.ReadAllLines("blacklists/ads/domains");
-            string[] adsUrls = File.ReadAllLines("blacklists/ads/urls");
-            string[] dialersDomains = File.ReadAllLines("blacklists/dialers/domains");
-            string[] dialersUrls = File.ReadAllLines("blacklists/dialers/urls");
-            string[] gamesDomains = File.ReadAllLines("blacklists/games/domains");
-            string[] gamesUrls = File.ReadAllLines("blacklists/games/urls");
-            string[] pornDomains = File.ReadAllLines("blacklists/porn/domains");
-            string[] pornUrls = File.ReadAllLines("blacklists/porn/urls");
-            string[] proxyDomains = File.ReadAllLines("blacklists/proxy/domains");
-            string[] proxyUrls = File.ReadAllLines("blacklists/proxy/urls");
-            string[] socialnetworkingDomains = File.ReadAllLines("blacklists/socialnetworking/domains");
-            string[] socialnetworkingUrls = File.ReadAllLines("blacklists/socialnetworking/urls");
-            string[] virusinfectedDomains = File.ReadAllLines("blacklists/virusinfected/domains");
-            string[] virusinfectedUrls = File.ReadAllLines("blacklists/virusinfected/urls");
-            string[] webmailDomains = File.ReadAllLines("blacklists/webmail/domains");
-            string[] webmailUrls = File.ReadAllLines("blacklists/webmail/urls");
+            AnalizeLog("access.log");
+        }
+
+        public static void AnalizeLog(string route)
+        {
+            var adsDomains = File.ReadAllLines("blacklists/ads/domains");
+            var adsUrls = File.ReadAllLines("blacklists/ads/urls");
+            var dialersDomains = File.ReadAllLines("blacklists/dialers/domains");
+            var dialersUrls = File.ReadAllLines("blacklists/dialers/urls");
+            var gamesDomains = File.ReadAllLines("blacklists/games/domains");
+            var gamesUrls = File.ReadAllLines("blacklists/games/urls");
+            var pornDomains = File.ReadAllLines("blacklists/porn/domains");
+            var pornUrls = File.ReadAllLines("blacklists/porn/urls");
+            var proxyDomains = File.ReadAllLines("blacklists/proxy/domains");
+            var proxyUrls = File.ReadAllLines("blacklists/proxy/urls");
+            var socialnetworkingDomains = File.ReadAllLines("blacklists/socialnetworking/domains");
+            var socialnetworkingUrls = File.ReadAllLines("blacklists/socialnetworking/urls");
+            var virusinfectedDomains = File.ReadAllLines("blacklists/virusinfected/domains");
+            var virusinfectedUrls = File.ReadAllLines("blacklists/virusinfected/urls");
+            var webmailDomains = File.ReadAllLines("blacklists/webmail/domains");
+            var webmailUrls = File.ReadAllLines("blacklists/webmail/urls");
 
             Console.WriteLine("UMCC Squid Log Analaizer");
 
-            TextReader tr = new StreamReader("access.log");
-            String line = tr.ReadLine();
+            TextReader tr = new StreamReader(route);
+            var line = tr.ReadLine();
 
             while (line != null)
             {
-                Log log = Log.GetLogFromLine(line);
+                var log = Log.GetLogFromLine(line);
 
                 if (log.Username != "-")
                 {
@@ -216,6 +221,7 @@ namespace SquidLogsAnalizer
                 line = tr.ReadLine();
             }
             tr.Close();
+            Console.WriteLine("Log fully analized. Have a good day 😀");
         }
     }
 }
