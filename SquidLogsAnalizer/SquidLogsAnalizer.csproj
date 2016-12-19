@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
     <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -95,11 +96,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="blacklists\ads" />
-    <Folder Include="blacklists\games" />
-    <Folder Include="blacklists\porn" />
-    <Folder Include="blacklists\proxy" />
-    <Folder Include="blacklists\webmail" />
+    <Folder Include="blacklists\" />
+    <Folder Include="blacklists\" />
+    <Folder Include="blacklists\" />
+    <Folder Include="blacklists\" />
+    <Folder Include="blacklists\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
