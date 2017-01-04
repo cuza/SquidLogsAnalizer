@@ -31,9 +31,12 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +104,11 @@
     <Folder Include="blacklists\" />
     <Folder Include="blacklists\" />
     <Folder Include="blacklists\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\Desktop\schema.sql">
+      <Link>schema.sql</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
