@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace SquidLogsAnalizer
 {
@@ -85,6 +87,12 @@ namespace SquidLogsAnalizer
 
         public static Log GetLogFromLine(String line)
         {
+            //This is for file access log first line is empty
+            if(line == "" || String.IsNullOrEmpty(line))
+            {
+                var lines = File.ReadAllLines("access.log");
+                File.WriteAllLines("access.log", lines.Skip(1).ToArray());
+            }
             line.Trim();
             var logElements = new List<string>(line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
             var log = new Log(
