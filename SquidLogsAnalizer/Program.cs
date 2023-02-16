@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Mono.Data.Sqlite;
-using UMCC.GRedes;
 
 namespace SquidLogsAnalizer
 {
@@ -16,11 +15,11 @@ namespace SquidLogsAnalizer
             }
             else
             {
-                ProcessLog("access.log");
+                ProcessLog("./access.log");
             }
         }
 
-        public static SqliteConnection connection;
+        public static SqliteConnection Connection;
 
         public static void AddData(Log log)
         {
@@ -36,7 +35,7 @@ namespace SquidLogsAnalizer
                 Console.WriteLine("Creating database");
                 // Need to create the database before seeding it with some data
                 Mono.Data.Sqlite.SqliteConnection.CreateFile(dbPath);
-                connection = new SqliteConnection("Data Source=" + dbPath);
+                Connection = new SqliteConnection("Data Source=" + dbPath);
 
                 var commands = new[]
                 {
@@ -48,17 +47,17 @@ namespace SquidLogsAnalizer
                     "PRAGMA foreign_keys = true;"
                 };
                 // Open the database connection and create table with data
-                connection.Open();
+                Connection.Open();
                 foreach (var command in commands)
                 {
-                    using (var c = connection.CreateCommand())
+                    using (var c = Connection.CreateCommand())
                     {
                         c.CommandText = command;
                         var rowcount = c.ExecuteNonQuery();
                         Console.WriteLine("\tExecuted " + command);
                     }
                 }
-                var con = connection.CreateCommand();
+                var con = Connection.CreateCommand();
 
                 con.CommandText = "BEGIN;";
                 var rowcount1 = con.ExecuteNonQuery();
@@ -79,11 +78,11 @@ namespace SquidLogsAnalizer
             {
                 Console.WriteLine("Database already exists");
                 // Open connection to existing database file
-                connection = new SqliteConnection("Data Source=" + dbPath);
-
-                connection.Open();
-
-                var c = connection.CreateCommand();
+                Connection = new SqliteConnection("Data Source=" + dbPath);
+                
+                Connection.Open();
+                
+                var c = Connection.CreateCommand();
 
                 c.CommandText = "BEGIN;";
                 var rowcount1 = c.ExecuteNonQuery();
@@ -100,7 +99,7 @@ namespace SquidLogsAnalizer
                 c.CommandText = "COMMIT;";
                 rowcount1 = c.ExecuteNonQuery();
             }
-            connection.Close();
+            Connection.Close();
         }
 
         public static void ProcessLog(string route)
@@ -130,7 +129,8 @@ namespace SquidLogsAnalizer
             }
             catch (Exception)
             {
-                Console.WriteLine("acces.log file not found");
+                Console.WriteLine("access.log file not found ,presione enter para salir");
+                Console.ReadKey();
                 return;
             }
             var line = tr.ReadLine();
