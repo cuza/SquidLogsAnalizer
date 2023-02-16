@@ -3,10 +3,10 @@
 *~
 
 # build
-[Oo]bj/
-[Bb]in/
-packages/
-TestResults/
+#[Oo]bj/
+#[Bb]in/
+#packages/
+#TestResults/
 
 # globs
 Makefile.in
