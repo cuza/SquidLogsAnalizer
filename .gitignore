@@ -63,6 +63,7 @@ x86/
 bld/
 #[Bb]in/
 access.log
+save.log
 *.log
 [Oo]bj/
 [Ll]og/

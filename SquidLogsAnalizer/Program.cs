@@ -15,7 +15,7 @@ namespace SquidLogsAnalizer
             }
             else
             {
-                ProcessLog("./access.log");
+                ProcessLog("./save.log");
             }
         }
 
