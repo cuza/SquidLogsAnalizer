@@ -56,6 +56,9 @@
         <None Include="blacklists\webmail\urls">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="sqlite3.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="blacklists\" />

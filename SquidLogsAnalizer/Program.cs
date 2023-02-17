@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Mono.Data.Sqlite;
 
@@ -8,6 +9,7 @@ namespace SquidLogsAnalizer
     {
         public static void Main(string[] args)
         {
+            Stopwatch stopwatch = new Stopwatch();
             if (args.Length > 0)
             {
                 var route = args[0];
@@ -17,6 +19,8 @@ namespace SquidLogsAnalizer
             {
                 ProcessLog("./access.log");
             }
+            TimeSpan ts = stopwatch.Elapsed;
+            Console.WriteLine("Time elapsed: {0}", ts);
         }
 
         public static SqliteConnection Connection;
