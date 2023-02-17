@@ -8,18 +8,14 @@ public sealed class SinglentonConnection
     private static readonly SinglentonConnection _instance = new SinglentonConnection();
     private static SqliteConnection _connection;
     private bool _exists;
+    private string dbPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+        "adodemo.db3");
 
     private SinglentonConnection()
     {
-        string dbPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-            "adodemo.db3");
-        _exists = File.Exists(dbPath);
-        if (!_exists)
-        {
-            SqliteConnection.CreateFile(dbPath);
-            _connection = new SqliteConnection("Data Source=" + dbPath);
-        }
+        _connection = new SqliteConnection("Data Source=" + dbPath);
+        _connection.Open();
     }
 
     public static SqliteConnection Connection

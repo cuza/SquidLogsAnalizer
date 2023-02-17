@@ -24,7 +24,7 @@ namespace SquidLogsAnalizer
             Console.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss"));
         }
 
-        public static SqliteConnection Connection;
+        //public static SqliteConnection Connection;
         public static void AddData(Log log)
         {
             // determine the path for the database file
@@ -39,7 +39,7 @@ namespace SquidLogsAnalizer
                 Console.WriteLine("Creating database");
                 // Need to create the database before seeding it with some data
                 SqliteConnection.CreateFile(dbPath);
-                Connection = new SqliteConnection("Data Source=" + dbPath);
+                //Connection = new SqliteConnection("Data Source=" + dbPath);
 
                 var commands = new[]
                 {
@@ -51,17 +51,17 @@ namespace SquidLogsAnalizer
                     "PRAGMA foreign_keys = true;"
                 };
                 // Open the database connection and create table with data
-                Connection.Open();
+                //Connection.Open();
                 foreach (var command in commands)
                 {
-                    using (var c = Connection.CreateCommand())
+                    using (var c = SinglentonConnection.Connection.CreateCommand())
                     {
                         c.CommandText = command;
                         var rowcount = c.ExecuteNonQuery();
                         Console.WriteLine("\tExecuted " + command);
                     }
                 }
-                var con = Connection.CreateCommand();
+                var con = SinglentonConnection.Connection.CreateCommand();
 
                 con.CommandText = "BEGIN;";
                 var rowcount1 = con.ExecuteNonQuery();
@@ -82,11 +82,11 @@ namespace SquidLogsAnalizer
             {
                 //Console.WriteLine("Database already exists");
                 // Open connection to existing database file
-                Connection = new SqliteConnection("Data Source=" + dbPath);
+                //Connection = new SqliteConnection("Data Source=" + dbPath);
                 
-                Connection.Open();
-                
-                var c = Connection.CreateCommand();
+                //Connection.Open();
+
+                var c = SinglentonConnection.Connection.CreateCommand();
 
                 c.CommandText = "BEGIN;";
                 var rowcount1 = c.ExecuteNonQuery();
@@ -103,7 +103,7 @@ namespace SquidLogsAnalizer
                 c.CommandText = "COMMIT;";
                 rowcount1 = c.ExecuteNonQuery();
             }
-            Connection.Close();
+            //Connection.Close();
         }
 
         public static void ProcessLog(string route)
