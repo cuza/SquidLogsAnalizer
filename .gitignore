@@ -3,10 +3,10 @@
 *~
 
 # build
-#[Oo]bj/
-#[Bb]in/
-#packages/
-#TestResults/
+[Oo]bj/
+[Bb]in/
+packages/
+TestResults/
 
 # globs
 Makefile.in
@@ -53,7 +53,7 @@ Thumbs.db
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 # Build results
-#[Dd]ebug/
+[Dd]ebug/
 [Dd]ebug/blacklist
 [Dd]ebugPublic/
 [Rr]elease/
@@ -61,7 +61,7 @@ Thumbs.db
 x64/
 x86/
 bld/
-#[Bb]in/
+[Bb]in/
 access.log
 save.log
 *.log
