@@ -21,7 +21,7 @@ namespace SquidLogsAnalizer
                 ProcessLog("./access.log");
             }
             sw.Stop();
-            Console.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss\\.fff"));
+            Console.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss"));
         }
 
         public static SqliteConnection Connection;
