@@ -9,7 +9,8 @@ namespace SquidLogsAnalizer
     {
         public static void Main(string[] args)
         {
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             if (args.Length > 0)
             {
                 var route = args[0];
@@ -19,12 +20,11 @@ namespace SquidLogsAnalizer
             {
                 ProcessLog("./access.log");
             }
-            TimeSpan ts = stopwatch.Elapsed;
-            Console.WriteLine("Time elapsed: {0}", ts);
+            sw.Stop();
+            Console.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss\\.fff"));
         }
 
         public static SqliteConnection Connection;
-
         public static void AddData(Log log)
         {
             // determine the path for the database file
@@ -38,7 +38,7 @@ namespace SquidLogsAnalizer
             {
                 Console.WriteLine("Creating database");
                 // Need to create the database before seeding it with some data
-                Mono.Data.Sqlite.SqliteConnection.CreateFile(dbPath);
+                SqliteConnection.CreateFile(dbPath);
                 Connection = new SqliteConnection("Data Source=" + dbPath);
 
                 var commands = new[]
