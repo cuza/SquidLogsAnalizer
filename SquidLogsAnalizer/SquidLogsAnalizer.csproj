@@ -6,10 +6,67 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+    <ItemGroup>
+        <None Include="blacklists\ads\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\ads\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\dialers\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\dialers\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\games\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\games\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\porn\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\porn\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\proxy\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\proxy\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\socialnetworking\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\socialnetworking\domains-backup" />
+        <None Include="blacklists\socialnetworking\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\virusinfected\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\virusinfected\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\webmail\domains">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="blacklists\webmail\urls">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="blacklists\" />
+        <Folder Include="blacklists\" />
+        <Folder Include="blacklists\" />
+        <Folder Include="blacklists\" />
+        <Folder Include="blacklists\" />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Mono.Data.Sqlite" Version="1.0.61" />
-      <PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
     </ItemGroup>
 
 </Project>

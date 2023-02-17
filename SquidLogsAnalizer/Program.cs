@@ -15,7 +15,7 @@ namespace SquidLogsAnalizer
             }
             else
             {
-                ProcessLog("./save.log");
+                ProcessLog("./access.log");
             }
         }
 
@@ -76,7 +76,7 @@ namespace SquidLogsAnalizer
             }
             else
             {
-                Console.WriteLine("Database already exists");
+                //Console.WriteLine("Database already exists");
                 // Open connection to existing database file
                 Connection = new SqliteConnection("Data Source=" + dbPath);
                 
@@ -141,7 +141,7 @@ namespace SquidLogsAnalizer
 
                 if (log.Username != "-")
                 {
-                        foreach (var blacklist in adsDomains)
+                        /*foreach (var blacklist in adsDomains)
                         {
                             if (!(blacklist.StartsWith("#")) && blacklist != "")
                             {
@@ -317,7 +317,7 @@ namespace SquidLogsAnalizer
                                                       log.DestinationHost + " " + "webmail");
                                 }
                             }
-                        }
+                        }*/
                 }
                 AddData(log);
                 line = tr.ReadLine();
