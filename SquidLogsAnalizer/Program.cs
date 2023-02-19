@@ -140,7 +140,7 @@ namespace SquidLogsAnalizer
             {
                 var log = Log.GetLogFromLine(line);
 
-                if (log.Username != "-")
+                /*if (log.Username != "-")
                 {
                     foreach (var blacklist in blackLists)
                     {
@@ -156,7 +156,7 @@ namespace SquidLogsAnalizer
                             }
                         }
                     }
-                }
+                }*/
                 AddData(log);
                 line = tr.ReadLine();
             }
