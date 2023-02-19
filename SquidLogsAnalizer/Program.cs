@@ -102,6 +102,7 @@ namespace SquidLogsAnalizer
 
         public static void ProcessLog(string route)
         {
+            var newlist = File.ReadAllLines("blacklists/blackweb.txt");
             var blackLists = new Dictionary<string, List<string>>()
             {
                 {"adsDomains", File.ReadAllLines("blacklists/ads/domains").ToList()}, 
@@ -118,7 +119,8 @@ namespace SquidLogsAnalizer
                 {"socialnetworkingUrls", File.ReadAllLines("blacklists/socialnetworking/urls").ToList()},
                 {"virusinfectedDomains", File.ReadAllLines("blacklists/virusinfected/domains").ToList()}, 
                 {"virusinfectedUrls", File.ReadAllLines("blacklists/virusinfected/urls").ToList()}, 
-                {"webmailDomains", File.ReadAllLines("blacklists/webmail/domains").ToList()}, 
+                {"webmailDomains", File.ReadAllLines("blacklists/webmail/domains").ToList()},
+                {"otherblacklist", File.ReadAllLines("blacklists/blackweb.txt").ToList()},
                 {"webmailUrls", File.ReadAllLines("blacklists/webmail/urls").ToList()}
             };
 
@@ -140,7 +142,7 @@ namespace SquidLogsAnalizer
             {
                 var log = Log.GetLogFromLine(line);
 
-                /*if (log.Username != "-")
+                if (log.Username != "-")
                 {
                     foreach (var blacklist in blackLists)
                     {
@@ -156,7 +158,7 @@ namespace SquidLogsAnalizer
                             }
                         }
                     }
-                }*/
+                }
                 AddData(log);
                 line = tr.ReadLine();
             }
