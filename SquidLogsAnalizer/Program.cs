@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Mono.Data.Sqlite;
-using UMCC.GRedes;
 
 namespace SquidLogsAnalizer
 {
@@ -9,6 +9,8 @@ namespace SquidLogsAnalizer
     {
         public static void Main(string[] args)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             if (args.Length > 0)
             {
                 var route = args[0];
@@ -16,12 +18,13 @@ namespace SquidLogsAnalizer
             }
             else
             {
-                ProcessLog("access.log");
+                ProcessLog("./access.log");
             }
+            sw.Stop();
+            Console.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss"));
         }
 
-        public static SqliteConnection connection;
-
+        //public static SqliteConnection Connection;
         public static void AddData(Log log)
         {
             // determine the path for the database file
@@ -35,8 +38,8 @@ namespace SquidLogsAnalizer
             {
                 Console.WriteLine("Creating database");
                 // Need to create the database before seeding it with some data
-                Mono.Data.Sqlite.SqliteConnection.CreateFile(dbPath);
-                connection = new SqliteConnection("Data Source=" + dbPath);
+                SqliteConnection.CreateFile(dbPath);
+                //Connection = new SqliteConnection("Data Source=" + dbPath);
 
                 var commands = new[]
                 {
@@ -48,17 +51,17 @@ namespace SquidLogsAnalizer
                     "PRAGMA foreign_keys = true;"
                 };
                 // Open the database connection and create table with data
-                connection.Open();
+                //Connection.Open();
                 foreach (var command in commands)
                 {
-                    using (var c = connection.CreateCommand())
+                    using (var c = SinglentonConnection.Connection.CreateCommand())
                     {
                         c.CommandText = command;
                         var rowcount = c.ExecuteNonQuery();
                         Console.WriteLine("\tExecuted " + command);
                     }
                 }
-                var con = connection.CreateCommand();
+                var con = SinglentonConnection.Connection.CreateCommand();
 
                 con.CommandText = "BEGIN;";
                 var rowcount1 = con.ExecuteNonQuery();
@@ -77,13 +80,7 @@ namespace SquidLogsAnalizer
             }
             else
             {
-                Console.WriteLine("Database already exists");
-                // Open connection to existing database file
-                connection = new SqliteConnection("Data Source=" + dbPath);
-
-                connection.Open();
-
-                var c = connection.CreateCommand();
+                var c = SinglentonConnection.Connection.CreateCommand();
 
                 c.CommandText = "BEGIN;";
                 var rowcount1 = c.ExecuteNonQuery();
@@ -100,27 +97,32 @@ namespace SquidLogsAnalizer
                 c.CommandText = "COMMIT;";
                 rowcount1 = c.ExecuteNonQuery();
             }
-            connection.Close();
+            //Connection.Close();
         }
 
         public static void ProcessLog(string route)
         {
-            var adsDomains = File.ReadAllLines("blacklists/ads/domains");
-            var adsUrls = File.ReadAllLines("blacklists/ads/urls");
-            var dialersDomains = File.ReadAllLines("blacklists/dialers/domains");
-            var dialersUrls = File.ReadAllLines("blacklists/dialers/urls");
-            var gamesDomains = File.ReadAllLines("blacklists/games/domains");
-            var gamesUrls = File.ReadAllLines("blacklists/games/urls");
-            var pornDomains = File.ReadAllLines("blacklists/porn/domains");
-            var pornUrls = File.ReadAllLines("blacklists/porn/urls");
-            var proxyDomains = File.ReadAllLines("blacklists/proxy/domains");
-            var proxyUrls = File.ReadAllLines("blacklists/proxy/urls");
-            var socialnetworkingDomains = File.ReadAllLines("blacklists/socialnetworking/domains");
-            var socialnetworkingUrls = File.ReadAllLines("blacklists/socialnetworking/urls");
-            var virusinfectedDomains = File.ReadAllLines("blacklists/virusinfected/domains");
-            var virusinfectedUrls = File.ReadAllLines("blacklists/virusinfected/urls");
-            var webmailDomains = File.ReadAllLines("blacklists/webmail/domains");
-            var webmailUrls = File.ReadAllLines("blacklists/webmail/urls");
+            var newlist = File.ReadAllLines("blacklists/blackweb.txt");
+            var blackLists = new Dictionary<string, List<string>>()
+            {
+                {"adsDomains", File.ReadAllLines("blacklists/ads/domains").ToList()}, 
+                {"adsUrls", File.ReadAllLines("blacklists/ads/urls").ToList()}, 
+                {"dialersDomains", File.ReadAllLines("blacklists/dialers/domains").ToList()}, 
+                {"dialersUrls", File.ReadAllLines("blacklists/dialers/urls").ToList()},
+                {"gamesDomains", File.ReadAllLines("blacklists/games/domains").ToList()}, 
+                {"gamesUrls", File.ReadAllLines("blacklists/games/urls").ToList()}, 
+                {"pornDomains", File.ReadAllLines("blacklists/porn/domains").ToList()}, 
+                {"pornUrls", File.ReadAllLines("blacklists/porn/urls").ToList()},
+                {"proxyDomains", File.ReadAllLines("blacklists/proxy/domains").ToList()}, 
+                {"proxyUrls", File.ReadAllLines("blacklists/proxy/urls").ToList()}, 
+                {"socialnetworkingDomains", File.ReadAllLines("blacklists/socialnetworking/domains").ToList()}, 
+                {"socialnetworkingUrls", File.ReadAllLines("blacklists/socialnetworking/urls").ToList()},
+                {"virusinfectedDomains", File.ReadAllLines("blacklists/virusinfected/domains").ToList()}, 
+                {"virusinfectedUrls", File.ReadAllLines("blacklists/virusinfected/urls").ToList()}, 
+                {"webmailDomains", File.ReadAllLines("blacklists/webmail/domains").ToList()},
+                {"otherblacklist", File.ReadAllLines("blacklists/blackweb.txt").ToList()},
+                {"webmailUrls", File.ReadAllLines("blacklists/webmail/urls").ToList()}
+            };
 
             Console.WriteLine("UMCC Squid Log Analaizer");
             TextReader tr = null;
@@ -130,7 +132,8 @@ namespace SquidLogsAnalizer
             }
             catch (Exception)
             {
-                Console.WriteLine("acces.log file not found");
+                Console.WriteLine("access.log file not found ,presione enter para salir");
+                Console.ReadKey();
                 return;
             }
             var line = tr.ReadLine();
@@ -141,182 +144,20 @@ namespace SquidLogsAnalizer
 
                 if (log.Username != "-")
                 {
-//                        foreach (var blacklist in adsDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "ads");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in adsUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "ads");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in dialersDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "dialers");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in dialersUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "dialers");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in gamesDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "games");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in gamesUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "games");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in pornDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "porn");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in pornUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "porn");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in proxyDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "proxy");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in proxyUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "proxy");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in socialnetworkingDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "social netoworks");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in socialnetworkingUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "socila networks");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in virusinfectedDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "virus");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in virusinfectedUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "virus");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in webmailDomains)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "webmail");
-//                                }
-//                            }
-//                        }
-//                        foreach (var blacklist in webmailUrls)
-//                        {
-//                            if (!(blacklist.StartsWith("#")) && blacklist != "")
-//                            {
-//                                if (log.DestinationHost.Contains(blacklist) && log.SquidAction.Contains("DIRECT"))
-//                                {
-//                                    Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
-//                                                      log.DestinationHost + " " + "webmail");
-//                                }
-//                            }
-//                        }
+                    foreach (var blacklist in blackLists)
+                    {
+                        var listName = blacklist.Key;
+                        var list = blacklist.Value;
+
+                        if (list.Any() && !list[0].StartsWith("#"))
+                        {
+                            if (list.Any(blacklistItem => log.DestinationHost.Contains(blacklistItem) && log.SquidAction.Contains("DIRECT")))
+                            {
+                                Console.WriteLine(log.Username + " " + log.HostIp + " " + " " +
+                                                  log.DestinationHost + " " + listName);
+                            }
+                        }
+                    }
                 }
                 AddData(log);
                 line = tr.ReadLine();
